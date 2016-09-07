@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>AboutToPasteTabsWithCancel</key>
+	<true/>
+	<key>AboutToPasteTabsWithCancel_selection</key>
+	<integer>2</integer>
 	<key>AdjustWindowForFontSizeChange</key>
 	<true/>
 	<key>AllowClipboardAccess</key>
@@ -150,16 +154,10 @@
 	<true/>
 	<key>MaxVertically</key>
 	<false/>
-	<key>NSFontPanelAttributes</key>
-	<string>1, 4</string>
-	<key>NSFontPanelPreviewHeight</key>
-	<real>100</real>
 	<key>NSNavLastRootDirectory</key>
-	<string>~/Sites/dots</string>
+	<string>/Applications</string>
 	<key>NSNavPanelExpandedSizeForOpenMode</key>
-	<string>{712, 448}</string>
-	<key>NSNavPanelExpandedSizeForSaveMode</key>
-	<string>{712, 565}</string>
+	<string>{712, 459}</string>
 	<key>NSQuotedKeystrokeBinding</key>
 	<string></string>
 	<key>NSRepeatCountBinding</key>
@@ -185,28 +183,21 @@
 	<array/>
 	<key>NSTableView Sort Ordering KeyBingingTable</key>
 	<array/>
-	<key>NSToolbar Configuration Terminal Toolbar</key>
-	<dict>
-		<key>TB Display Mode</key>
-		<integer>1</integer>
-		<key>TB Icon Size Mode</key>
-		<integer>1</integer>
-		<key>TB Is Shown</key>
-		<integer>0</integer>
-		<key>TB Size Mode</key>
-		<integer>1</integer>
-	</dict>
 	<key>NSToolbar Configuration com.apple.NSColorPanel</key>
 	<dict>
 		<key>TB Is Shown</key>
 		<integer>1</integer>
 	</dict>
 	<key>NSWindow Frame NSFontPanel</key>
-	<string>23 64 897 313 0 0 1280 777 </string>
+	<string>557 188 445 77 0 0 1280 777 </string>
 	<key>NSWindow Frame Preferences</key>
-	<string>64 309 606 456 0 0 1280 777 </string>
+	<string>269 313 606 456 0 0 1280 777 </string>
+	<key>NSWindow Frame SUUpdateAlert</key>
+	<string>832 1018 700 622 -258 800 1920 1057 </string>
+	<key>NSWindow Frame SharedPreferences</key>
+	<string>367 997 796 473 -258 800 1920 1057 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>640 8 634 762 0 0 1280 777 </string>
+	<string>705 826 954 1027 -258 800 1920 1057 </string>
 	<key>New Bookmarks</key>
 	<array>
 		<dict>
@@ -1017,7 +1008,7 @@
 			<key>Use Italic Font</key>
 			<true/>
 			<key>Vertical Spacing</key>
-			<real>1.0539458990097046</real>
+			<real>1.2000000000000002</real>
 			<key>Visual Bell</key>
 			<true/>
 			<key>Window Type</key>
@@ -1026,30 +1017,22 @@
 			<string>/Users/ugo</string>
 		</dict>
 	</array>
-	<key>NoSyncConfirmBeta</key>
+	<key>NoSyncDoNotWarnBeforeMultilinePaste</key>
 	<true/>
-	<key>NoSyncHaveShownPromoWithId_4</key>
-	<true/>
+	<key>NoSyncDoNotWarnBeforeMultilinePaste_selection</key>
+	<integer>0</integer>
 	<key>NoSyncInstallationId</key>
-	<string>DAC2C308-B0BB-45DF-9F75-FA818924A667</string>
+	<string>370C494E-634E-4900-AE25-E0F0563F05C4</string>
 	<key>NoSyncLastTipTime</key>
-	<real>478271338.94540602</real>
+	<real>492602846.36450303</real>
 	<key>NoSyncNeverRemindPrefsChangesLostForFile</key>
 	<true/>
 	<key>NoSyncNeverRemindPrefsChangesLostForFile_selection</key>
 	<integer>0</integer>
 	<key>NoSyncPermissionToShowTip</key>
 	<true/>
-	<key>NoSyncSilenceAnnoyingBellAutomatically</key>
-	<true/>
 	<key>NoSyncTimeOfFirstLaunchOfVersionWithTip</key>
-	<real>477610411.08213598</real>
-	<key>NoSyncTimeOfLastPromo</key>
-	<real>477570924.77690899</real>
-	<key>NoSyncTimeOfLastPromoDownload</key>
-	<real>477570331.849594</real>
-	<key>NoSyncTipsDisabled</key>
-	<true/>
+	<real>489923488.06934601</real>
 	<key>NoSyncTipsToNotShow</key>
 	<array>
 		<string>000</string>
@@ -1058,6 +1041,17 @@
 		<string>0002</string>
 		<string>0003</string>
 		<string>0004</string>
+		<string>0005</string>
+		<string>0006</string>
+		<string>0007</string>
+		<string>0008</string>
+		<string>0009</string>
+		<string>0010</string>
+		<string>0011</string>
+		<string>0012</string>
+		<string>0013</string>
+		<string>0014</string>
+		<string>0015</string>
 	</array>
 	<key>NumberOfLinesForAccessibility</key>
 	<integer>1000000</integer>
@@ -1073,6 +1067,8 @@
 	<false/>
 	<key>PasteFromClipboard</key>
 	<false/>
+	<key>PasteTabToStringTabStopSize</key>
+	<integer>4</integer>
 	<key>PointerActions</key>
 	<dict>
 		<key>Button,1,1,,</key>
@@ -1116,18 +1112,18 @@
 	<integer>8</integer>
 	<key>RightOption</key>
 	<integer>3</integer>
-	<key>SUAutomaticallyUpdate</key>
-	<true/>
 	<key>SUEnableAutomaticChecks</key>
 	<true/>
 	<key>SUFeedAlternateAppNameKey</key>
 	<string>iTerm</string>
 	<key>SUFeedURL</key>
-	<string>https://iterm2.com/appcasts/testing3.xml?shard=58</string>
+	<string>https://iterm2.com/appcasts/testing.xml?shard=31</string>
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2016-07-07T13:50:46Z</date>
+	<date>2016-08-11T09:24:43Z</date>
+	<key>SUSendProfileInfo</key>
+	<false/>
 	<key>SavePasteHistory</key>
 	<false/>
 	<key>Show Toolbelt</key>
@@ -1175,6 +1171,6 @@
 	<key>findRegex_iTerm</key>
 	<false/>
 	<key>iTerm Version</key>
-	<string>3.0.3</string>
+	<string>3.0.7</string>
 </dict>
 </plist>
