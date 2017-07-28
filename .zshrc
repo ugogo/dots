@@ -1,84 +1,96 @@
-# Path to oh-my-zsh installation.
+# old.
+# plugins=(npm zsh_reload zsh-syntax-highlighting rbenv)
+
+# export PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/git/bin
+# export PATH=/usr/local/bin:$PATH
+# export PATH=$PATH:/usr/local/php5/bin
+# export PATH=$PATH:/usr/local/sbin
+# export PATH=$PATH:/usr/local/heroku/bin
+# export PATH=$PATH:$HOME/npm-global/bin
+# export PATH="$HOME/.yarn/bin:$PATH"
+
+# export GOPATH="$HOME/dev/heetch"
+# export PATH="$PATH:$GOPATH/src/github.com/heetch/universe/bin"
+# export PATH="$PATH:$GOPATH/src/github.com/heetch/universe/vendor/bin"
+# export HOMEBREW_DEVELOPER=1
+
+# Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
 
-#  Theme
-ZSH_THEME="robbyrussell"
+# Set name of the theme to load. Optionally, if you set this to "random"
+# it'll load a random theme each time that oh-my-zsh is loaded.
+# See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
+ZSH_THEME="refined"
 
-# Plugins
-plugins=(atom autojump npm zsh_reload zsh-syntax-highlighting rbenv)
+# Uncomment the following line to use case-sensitive completion.
+# CASE_SENSITIVE="true"
 
-# Sources
+# Uncomment the following line to use hyphen-insensitive completion. Case
+# sensitive completion must be off. _ and - will be interchangeable.
+# HYPHEN_INSENSITIVE="true"
+
+# Uncomment the following line to disable bi-weekly auto-update checks.
+# DISABLE_AUTO_UPDATE="true"
+
+# Uncomment the following line to change how often to auto-update (in days).
+# export UPDATE_ZSH_DAYS=13
+
+# Uncomment the following line to disable colors in ls.
+# DISABLE_LS_COLORS="true"
+
+# Uncomment the following line to disable auto-setting terminal title.
+# DISABLE_AUTO_TITLE="true"
+
+# Uncomment the following line to enable command auto-correction.
+# ENABLE_CORRECTION="true"
+
+# Uncomment the following line to display red dots whilst waiting for completion.
+COMPLETION_WAITING_DOTS="true"
+
+# Uncomment the following line if you want to disable marking untracked files
+# under VCS as dirty. This makes repository status check for large repositories
+# much, much faster.
+DISABLE_UNTRACKED_FILES_DIRTY="true"
+
+plugins=(autojump)
+
 source $ZSH/oh-my-zsh.sh
 
-# Paths
-export PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/git/bin
-export PATH=/usr/local/bin:$PATH
-export PATH=~/.bin:$PATH
-export PATH=$PATH:/usr/local/php5/bin
-export PATH=$PATH:/usr/local/sbin
-export PATH=$PATH:/usr/local/heroku/bin
-export PATH=$PATH:$HOME/npm-global/bin
-export PATH="$HOME/.yarn/bin:$PATH"
+# ssh
+# export SSH_KEY_PATH="~/.ssh/rsa_id"
 
-export GOPATH="$HOME/dev/heetch"
-export PATH="$PATH:$GOPATH/src/github.com/heetch/universe/bin"
-export PATH="$PATH:$GOPATH/src/github.com/heetch/universe/vendor/bin"
-export PATH="$PATH:$GOPATH/bin"
-export HOMEBREW_DEVELOPER=1
-
-# Aliases
-## General
-alias c="clear"
-alias at="atom"
-
-## Zsh
-alias zshconfig="atom ~/.zshrc"
+alias zshconfig="code ~/.zshrc"
 alias src="source ~/.zshrc"
 
-## Git
-alias gs="git status";
-alias gf="git fetch";
-alias gaa="git add --all";
-alias grm="git rebase origin/master";
-alias grc="git rebase --continue";
-alias gra="git rebase --abort";
-alias gd="git diff";
-alias gdc="git diff --staged";
-alias gl="git lg";
-alias gbr="git branch";
-alias gco="git checkout";
-alias gci="echo 🎯 && git commit";
-alias grh="git reset head";
+alias gs="git status"
+alias gf="git fetch"
+alias ga="git add"
+alias gaa="git add --all"
+alias grm="git rebase origin/master"
+alias grc="git rebase --continue"
+alias gra="git rebase --abort"
+alias gd="git diff"
+alias gdc="git diff --staged"
+alias gl="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+alias gbr="git branch"
+alias gco="git checkout"
+alias gci="echo 🎯 && git commit"
+alias grh="git reset head"
+alias gu="git reset --soft HEAD^"
+alias gstash="echo 💃 && git stash -q --keep-index"
+alias gpoop="echo 💩 && git stash pop -q"
+alias gpp="pull && push"
 
-alias stash="echo 💃 && git stash -q --keep-index";
-alias poop="echo 💩 && git stash pop -q";
-alias pp="pull && push";
-
-function basicRebase {
+function push {
   CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
-  echo "$ git rebase origin/$CURRENT_BRANCH"
-  git rebase origin/$CURRENT_BRANCH
-}
 
-function rebase {
-  if [ -n "$1" ]; then
-    if [ $1 = "-i" ]; then
-      echo "$ git rebase -i head~$2"
-      git rebase -i head~$2
-    else
-      echo "$ git fetch"
-      git fetch
-
-      basicRebase
-    fi
+  if [[ $1 == "-f" ]]; then
+    echo "$ 💀  git push origin $CURRENT_BRANCH -f 💀"
+    git push origin $CURRENT_BRANCH -f
   else
-    basicRebase
+    echo "$ 🍻  git push origin $CURRENT_BRANCH 🍻"
+    git push origin $CURRENT_BRANCH
   fi
-}
-
-function fetch {
-  echo "$ git fetch"
-  git fetch
 }
 
 function pull {
@@ -87,37 +99,16 @@ function pull {
   git pull --rebase origin $CURRENT_BRANCH
 }
 
-function basicPush {
-  CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
-  echo "$ 🍻  git push origin $CURRENT_BRANCH 🍻";
-  git push origin $CURRENT_BRANCH
-}
-
-function push {
-  CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
-  if [ -n "$1" ]; then
-    if [ $1 = "-f" ]; then
-      echo "$ 💀  git push origin $CURRENT_BRANCH -f 💀"
-      git push origin $CURRENT_BRANCH -f
-    else
-      basicPush
-    fi
-  else
-    basicPush
-  fi
-}
-
 function ri {
   echo "$ git rebase -i head~$1"
   git rebase -i head~$1
 }
 
-# NVM
-export NVM_DIR="/Users/ugo/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+# heetch related
+export PATH="$HOME/.rbenv/bin:$PATH"
+export GOPATH="$HOME/dev/go"
+export PATH=~/.bin:$PATH
+export PATH=$GOPATH/src/github.com/heetch/universe/bin:$GOPATH/src/github.com/heetch/universe/vendor/bin:$PATH
+export PATH="$PATH:$GOPATH/bin"
 
-nvm use 7
-
-# rbenv
-# eval "$(rbenv init -)"
-
+eval "$(rbenv init -)"

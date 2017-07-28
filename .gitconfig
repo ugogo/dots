@@ -1,15 +1,9 @@
 [user]
-	name = onaliugo
+	name = ugogo
 	email = hello@onali-ugo.fr
-
-[alias]
-	aa = add .
-	st = status
-	co = checkout
-	ci = commit
-	br = branch
-	undo = reset --soft HEAD^
-	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
 
 [core]
 	excludesfile = /Users/ugo/.gitignore_global
+
+[status]
+	showUntrackedFiles = all
