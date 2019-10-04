@@ -1,19 +1,3 @@
-# old.
-# plugins=(npm zsh_reload zsh-syntax-highlighting rbenv)
-
-# export PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/git/bin
-# export PATH=/usr/local/bin:$PATH
-# export PATH=$PATH:/usr/local/php5/bin
-# export PATH=$PATH:/usr/local/sbin
-# export PATH=$PATH:/usr/local/heroku/bin
-# export PATH=$PATH:$HOME/npm-global/bin
-# export PATH="$HOME/.yarn/bin:$PATH"
-
-# export GOPATH="$HOME/dev/heetch"
-# export PATH="$PATH:$GOPATH/src/github.com/heetch/universe/bin"
-# export PATH="$PATH:$GOPATH/src/github.com/heetch/universe/vendor/bin"
-# export HOMEBREW_DEVELOPER=1
-
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
 
@@ -52,13 +36,14 @@ COMPLETION_WAITING_DOTS="true"
 # much, much faster.
 DISABLE_UNTRACKED_FILES_DIRTY="true"
 
-plugins=(autojump)
+plugins=(autojump osx yarn-autocompletions zsh-autosuggestions)
 
 source $ZSH/oh-my-zsh.sh
 
 # ssh
 # export SSH_KEY_PATH="~/.ssh/rsa_id"
 
+alias c="code"
 alias zshconfig="code ~/.zshrc"
 alias src="source ~/.zshrc"
 
@@ -67,10 +52,11 @@ alias gf="git fetch"
 alias ga="git add"
 alias gaa="git add --all"
 alias grm="git rebase origin/master"
-alias grc="git rebase --continue"
 alias gra="git rebase --abort"
-alias gd="git diff"
-alias gdc="git diff --staged"
+alias grc="git rebase --continue"
+alias grs="git rebase --skip"
+alias gd="git diff -w"
+alias gdc="git diff -w --staged"
 alias gl="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 alias gbr="git branch"
 alias gco="git checkout"
@@ -80,6 +66,17 @@ alias gu="git reset --soft HEAD^"
 alias gstash="echo 💃 && git stash -q --keep-index"
 alias gpoop="echo 💩 && git stash pop -q"
 alias gpp="pull && push"
+
+alias yb="yarn build"
+alias ys="yarn start"
+alias yt="yarn test"
+alias yl="yarn lint"
+alias yd="yarn dev"
+
+alias s="spotify"
+
+alias wwlan="cd ~/Desktop && sh wlan.command"
+alias w2.4="cd ~/Desktop && sh 2.4-1764.command"
 
 function push {
   CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
@@ -104,11 +101,21 @@ function ri {
   git rebase -i head~$1
 }
 
-# heetch related
-export PATH="$HOME/.rbenv/bin:$PATH"
-export GOPATH="$HOME/dev/go"
 export PATH=~/.bin:$PATH
-export PATH=$GOPATH/src/github.com/heetch/universe/bin:$GOPATH/src/github.com/heetch/universe/vendor/bin:$PATH
-export PATH="$PATH:$GOPATH/bin"
 
-eval "$(rbenv init -)"
+# heetch related
+
+# go
+export GOPATH="$HOME/dev/go"
+export PATH=$GOPATH/bin:$PATH
+export PATH=$GOPATH/src/github.com/heetch/universe/bin:$PATH
+
+#nvm
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+nvm use 11.10.1
+
+# asdf
+. $HOME/.asdf/asdf.sh
+. $HOME/.asdf/completions/asdf.bash

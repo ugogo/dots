@@ -1,7 +1,7 @@
 # Files
 .DS_Store
 npm-debug.log
+yarn-error.log
 
 # Folders
 node_modules
-.sass_cache

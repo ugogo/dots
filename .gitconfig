@@ -6,4 +6,6 @@
 	excludesfile = /Users/ugo/.gitignore_global
 
 [status]
-	showUntrackedFiles = all
+ 	showUntrackedFiles = all
+[credential]
+	helper = osxkeychain
