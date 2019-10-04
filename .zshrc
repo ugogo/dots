@@ -36,7 +36,7 @@ COMPLETION_WAITING_DOTS="true"
 # much, much faster.
 DISABLE_UNTRACKED_FILES_DIRTY="true"
 
-plugins=(autojump osx yarn-autocompletions zsh-autosuggestions)
+plugins=(autojump osx zsh-autosuggestions)
 
 source $ZSH/oh-my-zsh.sh
 

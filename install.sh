@@ -6,7 +6,8 @@ brew install autojump
 brew install wget
 brew install tmate
 brew install yarn
-brew tap caskroom/fonts && brew cask install font-fira-code
+brew tap homebrew/cask-fonts
+brew cask install font-fira-code
 brew cask install ngrok
 brew install nvm
 
@@ -21,5 +22,3 @@ cp .gitignore_global ~/
 cp .gitconfig ~/
 cp .zshrc ~/
 
-# heetch related
-brew install rbenv
