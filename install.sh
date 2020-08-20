@@ -4,9 +4,6 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/mas
 # install brew
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
-# install nvm
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.0/install.sh | bash
-
 # brew packages
 brew install autojump
 brew install wget
@@ -19,6 +16,10 @@ brew cask install ngrok
 
 # zsh-autosuggestions
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+
+# pure
+# https://github.com/sindresorhus/pure
+npm install --global pure-prompt
 
 # move files
 cp .gitignore_global ~/
