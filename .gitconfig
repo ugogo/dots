@@ -7,5 +7,12 @@
 
 [status]
  	showUntrackedFiles = all
+
 [credential]
 	helper = osxkeychain
+
+[diff]
+	noprefix = true
+
+[pull]
+  rebase = true
