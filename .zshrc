@@ -4,7 +4,7 @@ export ZSH=$HOME/.oh-my-zsh
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="refined"
+ZSH_THEME=""
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -38,6 +38,14 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 
 plugins=(autojump osx zsh-autosuggestions)
 
+# Pure theme
+# https://github.com/sindresorhus/pure
+autoload -U promptinit; promptinit
+PURE_PROMPT_SYMBOL=$
+zstyle :prompt:pure:path color cyan
+zstyle :prompt:pure:git:branch color '#EEE'
+prompt pure
+
 source $ZSH/oh-my-zsh.sh
 
 # ssh
@@ -61,6 +69,7 @@ alias gl="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %
 alias gbr="git branch"
 alias gco="git checkout"
 alias gci="echo 🎯 && git commit"
+alias gcp="git cherry-pick"
 alias grh="git reset head"
 alias gu="git reset --soft HEAD^"
 alias gstash="echo 💃 && git stash -q --keep-index"
@@ -74,16 +83,14 @@ alias yl="yarn lint"
 alias yd="yarn dev"
 
 alias s="spotify"
-
-alias wwlan="cd ~/Desktop && sh wlan.command"
-alias w2.4="cd ~/Desktop && sh 2.4-1764.command"
+alias wip="gaa && gci -m -n 'wip'"
 
 function push {
   CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 
   if [[ $1 == "-f" ]]; then
-    echo "$ 💀  git push origin $CURRENT_BRANCH -f 💀"
-    git push origin $CURRENT_BRANCH -f
+    echo "$ 💀  git push origin $CURRENT_BRANCH --force-with-lease 💀"
+    git push origin $CURRENT_BRANCH --force-with-lease
   else
     echo "$ 🍻  git push origin $CURRENT_BRANCH 🍻"
     git push origin $CURRENT_BRANCH
@@ -92,7 +99,7 @@ function push {
 
 function pull {
   CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
-  echo "$ git pull --rebase origin $CURRENT_BRANCH"
+  echo "$ git pull origin $CURRENT_BRANCH --rebase"
   git pull --rebase origin $CURRENT_BRANCH
 }
 
@@ -102,20 +109,3 @@ function ri {
 }
 
 export PATH=~/.bin:$PATH
-
-# heetch related
-
-# go
-export GOPATH="$HOME/dev/go"
-export PATH=$GOPATH/bin:$PATH
-export PATH=$GOPATH/src/github.com/heetch/universe/bin:$PATH
-
-#nvm
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-nvm use 11.10.1
-
-# asdf
-. $HOME/.asdf/asdf.sh
-. $HOME/.asdf/completions/asdf.bash
