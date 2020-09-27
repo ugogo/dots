@@ -13,6 +13,8 @@ brew install thefuck
 brew tap homebrew/cask-fonts
 brew cask install font-fira-code
 brew cask install ngrok
+brew tap heroku/brew
+brew install heroku
 
 # zsh-autosuggestions
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
