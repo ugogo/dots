@@ -1,6 +1,6 @@
 [user]
 	name = ugogo
-	email = hello@onali-ugo.fr
+	email = ugo.j.onali@gmail.com
 
 [core]
 	excludesfile = /Users/ugo/.gitignore_global
@@ -16,3 +16,6 @@
 
 [pull]
   rebase = true
+
+[fetch]
+	prune = true
