@@ -52,7 +52,7 @@ alias yl="yarn lint"
 alias yd="yarn dev"
 
 alias s="spotify"
-alias wip="gaa && gci -m -n 'wip'"
+alias wip="gaa && gci -n -m 'wip'"
 
 function push {
   CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
@@ -78,3 +78,10 @@ function ri {
 }
 
 export PATH=~/.bin:$PATH
+
+# fnm
+export PATH=/Users/ugogo/.fnm:$PATH
+eval "`fnm env`"
+fnm use 14.15.1
+
+eval $(thefuck --alias)
