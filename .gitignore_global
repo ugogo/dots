@@ -5,3 +5,4 @@ yarn-error.log
 
 # folders
 node_modules
+.vscode

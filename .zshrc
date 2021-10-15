@@ -7,7 +7,7 @@ COMPLETION_WAITING_DOTS="true"
 
 DISABLE_UNTRACKED_FILES_DIRTY="true"
 
-plugins=(autojump osx zsh-autosuggestions)
+plugins=(autojump osx zsh-autosuggestions git-open)
 
 # Pure theme
 # https://github.com/sindresorhus/pure
@@ -40,10 +40,8 @@ alias gco="git checkout"
 alias gci="echo 🎯 && git commit"
 alias gcp="git cherry-pick"
 alias grh="git reset head"
-alias gu="git reset --soft HEAD^"
 alias gstash="echo 💃 && git stash -q --keep-index"
 alias gpoop="echo 💩 && git stash pop -q"
-alias gpp="pull && push"
 
 alias yb="yarn build"
 alias ys="yarn start"
@@ -79,9 +77,14 @@ function ri {
 
 export PATH=~/.bin:$PATH
 
-# fnm
-export PATH=/Users/ugogo/.fnm:$PATH
-eval "`fnm env`"
-fnm use 14.15.1
+# Shine
+glogin() {
+  gcloud auth application-default login
+  token-getter
+}
 
-eval $(thefuck --alias)
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/ugogo/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/ugogo/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/ugogo/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/ugogo/google-cloud-sdk/completion.zsh.inc'; fi
