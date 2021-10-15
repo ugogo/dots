@@ -23,9 +23,9 @@ brew tap heroku/brew
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 git clone https://github.com/paulirish/git-open.git $ZSH_CUSTOM/plugins/git-open
 
-# pure
-# https://github.com/sindresorhus/pure
+# npm globals
 npm install --global pure-prompt
+npm install --global git-open
 
 # move files
 cp .gitignore_global ~/

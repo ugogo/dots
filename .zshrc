@@ -7,7 +7,7 @@ COMPLETION_WAITING_DOTS="true"
 
 DISABLE_UNTRACKED_FILES_DIRTY="true"
 
-plugins=(autojump osx zsh-autosuggestions git-open)
+plugins=(autojump osx zsh-autosuggestions)
 
 # Pure theme
 # https://github.com/sindresorhus/pure
