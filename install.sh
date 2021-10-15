@@ -16,6 +16,7 @@ brew install diff-so-fancy
 brew install --cask font-fira-code
 brew install --cask ngrok
 brew install --cask iterm2
+brew install --cask slack
 brew tap homebrew/cask-fonts
 brew tap heroku/brew
 
