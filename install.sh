@@ -13,11 +13,11 @@ brew install heroku
 brew install postgres
 brew install git-recent
 brew install diff-so-fancy
-brew tap homebrew/cask-fonts
-brew cask install font-fira-code
-brew cask install ngrok
-brew tap heroku/brew
+brew install --cask font-fira-code
+brew install --cask ngrok
 brew install --cask iterm2
+brew tap homebrew/cask-fonts
+brew tap heroku/brew
 
 # zsh plugins
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
