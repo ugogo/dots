@@ -5,22 +5,10 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/mas
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
 # brew packages
-brew install autojump
-brew install wget
-brew install tmate
-brew install yarn
-brew install heroku
-brew install postgres
-brew install git-recent
-brew install diff-so-fancy
-brew install --cask font-fira-code
-brew install --cask ngrok
-brew install --cask iterm2
-brew install --cask slack
-brew install --cask spotify
-brew install --cask zoom
-brew tap homebrew/cask-fonts
 brew tap heroku/brew
+brew tap homebrew/cask-fonts
+brew install autojump diff-so-fancy git-recent heroku postgres wget yarn
+brew install --cask font-fira-code iterm2 ngrok slack spotify zoom
 
 # zsh plugins
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
