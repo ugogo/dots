@@ -7,7 +7,7 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/mas
 # brew packages
 brew tap heroku/brew
 brew tap homebrew/cask-fonts
-brew install autojump diff-so-fancy fnm git-recent heroku postgres wget yarn
+brew install autojump diff-so-fancy fnm git-recent heroku postgres whatsapp wget yarn
 brew install --cask font-fira-code flux iterm2 ngrok slack spotify zoom
 
 # zsh plugins
