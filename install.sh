@@ -26,3 +26,8 @@ cp .zshrc ~/
 # open apps
 open /Applications/Flux.app
 open /Applications/Dropbox.app/
+
+# postgres
+ln -sfv /usr/local/opt/postgresql/*.plist ~/Library/LaunchAgents
+createdb `whoami`
+brew services start postgresql
