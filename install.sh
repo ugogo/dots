@@ -9,6 +9,7 @@ brew tap heroku/brew
 brew tap homebrew/cask-fonts
 brew install autojump diff-so-fancy fnm git-recent heroku postgres whatsapp wget yarn
 brew install --cask cleanshot dropbox font-fira-code flux iterm2 ngrok slack spotify visual-studio-code zoom
+
 # zsh plugins
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 git clone https://github.com/paulirish/git-open.git $ZSH_CUSTOM/plugins/git-open
