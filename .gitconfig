@@ -1,25 +1,18 @@
 [user]
-	name = ugogo
+	name = Ugo Onali
 	email = ugo.j.onali@gmail.com
-
-[core]
-	excludesfile = /Users/ugo/.gitignore_global
-	pager = diff-so-fancy | less --tabs=4 -RFX
-
-[status]
- 	showUntrackedFiles = all
 
 [credential]
 	helper = osxkeychain
+
+[status]
+	showUntrackedFiles = all
 
 [diff]
 	noprefix = true
 
 [pull]
-  rebase = true
+	rebase = true
 
 [fetch]
 	prune = true
-
-[interactive]
-	diffFilter = diff-so-fancy --patch

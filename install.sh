@@ -1,68 +1,77 @@
-# install zsh
+#!/usr/bin/env bash
+set -e
 
-if [ -n $ZSH ]; then
-  echo "$ Zsh already installed, skipping..."
-else
-  echo "$ Installing zsh..."
-  sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-fi
+# =============================================================================
+# Homebrew
+# =============================================================================
 
-# install brew
 if [[ $(command -v brew) == "" ]]; then
-    echo "$ Installing Hombrew"
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  echo "Installing Homebrew..."
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 else
-    echo "$ Updating Homebrew"
-    brew update
+  echo "Updating Homebrew..."
+  brew update
 fi
 
-# brew packages
- echo "$ Installing brew packages..."
- brew tap homebrew/cask-fonts
- brew install \
- autojump \
- diff-so-fancy \
- fnm \
- git-recent \
- pure \
- whatsapp \
- wget \
- yarn
-brew install --cask \
-1password \
-arc \
-bartender \
-cleanshot \
-cursor \
-cron \
-deepl \
-dropbox \
-font-fira-code \
-flux \
-iterm2 \
-linear-linear \
-ngrok \
-raycast \
-slack \
-spotify \
-vlc
+# =============================================================================
+# Brew formulae (CLI tools)
+# =============================================================================
 
-# zsh plugins
-echo "$ Installing zsh plugins..."
-git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+echo "Installing brew formulae..."
+brew install \
+  autojump \
+  fnm \
+  gh \
+  pure \
+  wget \
+  zsh-async
 
-# npm packages
-echo "$ Installing npm packages..."
-npm install --global git-open
-npm install --global npm-check-updates
+# =============================================================================
+# Brew casks (GUI apps)
+# =============================================================================
+# Install each cask; skip on failure (e.g. app already in /Applications from non-brew).
+# To overwrite existing apps, set FORCE_CASKS=1: FORCE_CASKS=1 ./install.sh
 
-# move files
-echo "$ Moving files..."
-cp .gitignore_global ~/
+echo "Installing brew casks..."
+CASKS=(
+  1password
+  arc
+  cleanshot
+  cursor
+  deepl
+  dropbox
+  flux
+  font-fira-code
+  jordanbaird-ice
+  linear-linear
+  notion-calendar
+  raycast
+  slack
+  spotify
+  whatsapp
+)
+for cask in "${CASKS[@]}"; do
+  if [[ -n "${FORCE_CASKS:-}" ]]; then
+    brew install --cask "$cask" --force
+  else
+    brew install --cask "$cask" || true
+  fi
+done
+
+# =============================================================================
+# Node (via fnm), pnpm (npm -g), and global pnpm packages
+# =============================================================================
+
+echo "Installing Node (fnm), pnpm (npm -g), and global tools..."
+eval "$(fnm env)"
+command -v node &>/dev/null || fnm install --lts
+npm install -g pnpm
+pnpm add -g git-open npm-check-updates
+
+# =============================================================================
+# Dotfiles
+# =============================================================================
+
+echo "Linking dotfiles..."
 cp .gitconfig ~/
 cp .zshrc ~/
-
-# # open apps
-open /Applications/Flux.app
-open /Applications/Dropbox.app/
-

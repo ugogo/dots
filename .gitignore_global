@@ -1,8 +1,0 @@
-# files
-.DS_Store
-npm-debug.log
-yarn-error.log
-
-# folders
-node_modules
-.vscode

@@ -1,90 +1,109 @@
-export ZSH=$HOME/.oh-my-zsh
+# =============================================================================
+# Environment & PATH
+# =============================================================================
 
-ZSH_THEME=""
+export PATH="$HOME/.bin:$PATH"
 
-# display red dots whilst waiting for completion
-COMPLETION_WAITING_DOTS="true"
+# pnpm — add pnpm bins to PATH (no-op if already present)
+export PNPM_HOME="$HOME/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
 
-DISABLE_UNTRACKED_FILES_DIRTY="true"
+# fnm — Node version manager (must be installed: brew install fnm)
+eval "$(fnm env)"
 
-plugins=(autojump osx zsh-autosuggestions)
+# =============================================================================
+# Zsh options (optional but useful)
+# =============================================================================
 
-# Pure theme
-# https://github.com/sindresorhus/pure
-autoload -U promptinit; promptinit
-PURE_PROMPT_SYMBOL=$
+# Share history between sessions and append immediately
+setopt SHARE_HISTORY
+setopt APPEND_HISTORY
+# Ignore duplicates and commands starting with space
+setopt HIST_IGNORE_DUPS
+setopt HIST_IGNORE_SPACE
+
+# =============================================================================
+# Prompt — Pure (https://github.com/sindresorhus/pure)
+# =============================================================================
+# Installed via: brew install pure. Ensures prompt is found when not using Homebrew zsh.
+fpath+=("$(brew --prefix)/share/zsh/site-functions")
+autoload -U promptinit
+promptinit
+PURE_PROMPT_SYMBOL='$'
 zstyle :prompt:pure:path color cyan
 zstyle :prompt:pure:git:branch color '#EEE'
 prompt pure
 
-source $ZSH/oh-my-zsh.sh
+# =============================================================================
+# Autojump — j <part-of-path> to jump to a frequently used directory
+# =============================================================================
+# Requires: brew install autojump. Then use: j kings, j doc, etc.
+_autojump_script="$(brew --prefix autojump 2>/dev/null)/share/autojump/autojump.zsh"
+[[ -s "$_autojump_script" ]] && source "$_autojump_script"
+unset _autojump_script
 
-# aliases
-alias c="code"
-alias zshconfig="code ~/.zshrc"
+# =============================================================================
+# General aliases
+# =============================================================================
+
+alias c="cursor"
+alias p="pnpm"
+alias zshconfig="c ~/.zshrc"
 alias src="source ~/.zshrc"
+
+# =============================================================================
+# Git aliases
+# =============================================================================
 
 alias gs="git status"
 alias gf="git fetch"
 alias ga="git add"
 alias gaa="git add --all"
-alias grm="git rebase origin/master"
-alias gra="git rebase --abort"
-alias grc="git rebase --continue"
-alias grs="git rebase --skip"
 alias gd="git diff -w"
-alias gdc="git diff -w --staged"
 alias gl="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 alias gbr="git branch"
 alias gco="git checkout"
 alias gci="echo 🎯 && git commit"
 alias gcp="git cherry-pick"
-alias grh="git reset head"
+alias grh="git reset HEAD"
 alias gstash="echo 💃 && git stash -q --keep-index"
 alias gpoop="echo 💩 && git stash pop -q"
 
-alias yb="yarn build"
-alias ys="yarn start"
-alias yt="yarn test"
-alias yl="yarn lint"
-alias yd="yarn dev"
+# Rebase: origin/master (legacy) and origin/main
+alias grm="git rebase origin/master"
+alias grmain="git rebase origin/main"
+alias gra="git rebase --abort"
+alias grc="git rebase --continue"
+alias grs="git rebase --skip"
 
-alias s="spotify"
+# =============================================================================
+# Git helpers (optional / project-specific)
+# =============================================================================
+
 alias wip="gaa && gci -n -m 'wip'"
 
-function push {
-  CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+# =============================================================================
+# Git functions
+# =============================================================================
 
-  if [[ $1 == "-f" ]]; then
-    echo "$ 💀  git push origin $CURRENT_BRANCH --force-with-lease 💀"
-    git push origin $CURRENT_BRANCH --force-with-lease
+function push {
+  local branch
+  branch=$(git rev-parse --abbrev-ref HEAD)
+  if [[ "$1" == "-f" ]]; then
+    echo "$ 💀  git push origin $branch --force-with-lease 💀"
+    git push origin "$branch" --force-with-lease
   else
-    echo "$ 🍻  git push origin $CURRENT_BRANCH 🍻"
-    git push origin $CURRENT_BRANCH
+    echo "$ 🍻  git push origin $branch 🍻"
+    git push origin "$branch"
   fi
 }
 
 function pull {
-  CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
-  echo "$ git pull origin $CURRENT_BRANCH --rebase"
-  git pull --rebase origin $CURRENT_BRANCH
+  local branch
+  branch=$(git rev-parse --abbrev-ref HEAD)
+  echo "$ git pull origin $branch --rebase"
+  git pull --rebase origin "$branch"
 }
-
-function ri {
-  echo "$ git rebase -i head~$1"
-  git rebase -i head~$1
-}
-
-export PATH=~/.bin:$PATH
-
-# Shine
-glogin() {
-  gcloud auth application-default login
-  token-getter
-}
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/ugogo/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/ugogo/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/ugogo/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/ugogo/google-cloud-sdk/completion.zsh.inc'; fi
