@@ -23,6 +23,7 @@ brew install \
   fnm \
   gh \
   pure \
+  thaw \
   wget \
   zsh-async
 
@@ -36,6 +37,7 @@ echo "Installing brew casks..."
 CASKS=(
   1password
   arc
+  alt-tab
   cleanshot
   cursor
   deepl
@@ -48,6 +50,7 @@ CASKS=(
   raycast
   slack
   spotify
+  TheBoredTeam/boring-notch/boring-notch
   whatsapp
 )
 for cask in "${CASKS[@]}"; do
