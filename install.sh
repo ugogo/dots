@@ -59,10 +59,8 @@ if ! has brew; then
   log "Installing Homebrew..."
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-  # Apple Silicon
   if [[ -x /opt/homebrew/bin/brew ]]; then
     eval "$(/opt/homebrew/bin/brew shellenv)"
-  # Intel
   elif [[ -x /usr/local/bin/brew ]]; then
     eval "$(/usr/local/bin/brew shellenv)"
   fi
@@ -142,7 +140,7 @@ done
 log "Installing Node with fnm..."
 
 export FNM_PATH="${HOME}/.fnm"
-eval "$(fnm env --use-on-cd --shell zsh)"
+eval "$(fnm env --shell bash)"
 
 if ! has node; then
   fnm install --lts
@@ -151,8 +149,7 @@ else
   echo "Node already available: $(node -v)"
 fi
 
-# Refresh shell environment after install/use
-eval "$(fnm env --use-on-cd --shell zsh)"
+eval "$(fnm env --shell bash)"
 
 if ! has npm; then
   echo "npm is not available after fnm setup."
