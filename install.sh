@@ -1,39 +1,106 @@
 #!/usr/bin/env bash
-set -e
+set -euo pipefail
+
+# =============================================================================
+# Helpers
+# =============================================================================
+
+log() {
+  printf "\n==> %s\n" "$1"
+}
+
+warn() {
+  printf "\n[warn] %s\n" "$1"
+}
+
+has() {
+  command -v "$1" >/dev/null 2>&1
+}
+
+link_file() {
+  local src="$1"
+  local dest="$2"
+
+  if [[ ! -e "$src" ]]; then
+    warn "Missing source file: $src"
+    return 0
+  fi
+
+  if [[ -L "$dest" ]]; then
+    local current_target
+    current_target="$(readlink "$dest")"
+    if [[ "$current_target" == "$src" ]]; then
+      echo "Already linked: $dest"
+      return 0
+    fi
+  fi
+
+  if [[ -e "$dest" || -L "$dest" ]]; then
+    mv "$dest" "${dest}.backup.$(date +%Y%m%d%H%M%S)"
+    echo "Backed up existing file: $dest"
+  fi
+
+  ln -s "$src" "$dest"
+  echo "Linked $src -> $dest"
+}
+
+# =============================================================================
+# Resolve repo root
+# =============================================================================
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$SCRIPT_DIR"
 
 # =============================================================================
 # Homebrew
 # =============================================================================
 
-if [[ $(command -v brew) == "" ]]; then
-  echo "Installing Homebrew..."
+if ! has brew; then
+  log "Installing Homebrew..."
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+  # Apple Silicon
+  if [[ -x /opt/homebrew/bin/brew ]]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+  # Intel
+  elif [[ -x /usr/local/bin/brew ]]; then
+    eval "$(/usr/local/bin/brew shellenv)"
+  fi
 else
-  echo "Updating Homebrew..."
+  log "Updating Homebrew..."
   brew update
 fi
 
 # =============================================================================
-# Brew formulae (CLI tools)
+# Brew formulae
 # =============================================================================
 
-echo "Installing brew formulae..."
-brew install \
-  autojump \
-  fnm \
-  gh \
-  pure \
-  thaw \
-  wget \
+log "Installing brew formulae..."
+
+FORMULAE=(
+  autojump
+  fnm
+  gh
+  pure
+  thaw
+  wget
   zsh-async
+)
+
+for formula in "${FORMULAE[@]}"; do
+  if brew list "$formula" >/dev/null 2>&1; then
+    echo "Already installed: $formula"
+  else
+    brew install "$formula"
+  fi
+done
 
 # =============================================================================
-# Brew casks (GUI apps)
+# Brew casks
 # =============================================================================
-# Install each cask; skip on failure (e.g. app already in /Applications from non-brew).
-# To overwrite existing apps, set FORCE_CASKS=1: FORCE_CASKS=1 ./install.sh
 
-echo "Installing brew casks..."
+log "Installing brew casks..."
+
 CASKS=(
   1password
   arc
@@ -54,28 +121,107 @@ CASKS=(
   TheBoredTeam/boring-notch/boring-notch
   whatsapp
 )
+
 for cask in "${CASKS[@]}"; do
   if [[ -n "${FORCE_CASKS:-}" ]]; then
+    echo "Force installing cask: $cask"
     brew install --cask "$cask" --force
   else
-    brew install --cask "$cask" || true
+    if brew list --cask "$cask" >/dev/null 2>&1; then
+      echo "Already installed: $cask"
+    else
+      brew install --cask "$cask" || warn "Failed to install cask: $cask"
+    fi
   fi
 done
 
 # =============================================================================
-# Node (via fnm), pnpm (npm -g), and global pnpm packages
+# Node (via fnm)
 # =============================================================================
 
-echo "Installing Node (fnm), pnpm (npm -g), and global tools..."
-eval "$(fnm env)"
-command -v node &>/dev/null || fnm install --lts
+log "Installing Node with fnm..."
+
+export FNM_PATH="${HOME}/.fnm"
+eval "$(fnm env --use-on-cd --shell zsh)"
+
+if ! has node; then
+  fnm install --lts
+  fnm use lts-latest
+else
+  echo "Node already available: $(node -v)"
+fi
+
+# Refresh shell environment after install/use
+eval "$(fnm env --use-on-cd --shell zsh)"
+
+if ! has npm; then
+  echo "npm is not available after fnm setup."
+  exit 1
+fi
+
+# =============================================================================
+# pnpm
+# =============================================================================
+
+log "Installing pnpm and global tools..."
+
 npm install -g pnpm
-pnpm add -g git-open npm-check-updates
+
+export PNPM_HOME="$HOME/Library/pnpm"
+export PATH="$PNPM_HOME:$PATH"
+
+mkdir -p "$PNPM_HOME"
+mkdir -p "$HOME/Library/pnpm/global"
+
+pnpm config set global-bin-dir "$PNPM_HOME"
+pnpm config set global-dir "$HOME/Library/pnpm/global"
+
+GLOBAL_PNPM_PACKAGES=(
+  git-open
+  npm-check-updates
+)
+
+pnpm add -g "${GLOBAL_PNPM_PACKAGES[@]}"
 
 # =============================================================================
 # Dotfiles
 # =============================================================================
 
-echo "Linking dotfiles..."
-cp .gitconfig ~/
-cp .zshrc ~/
+log "Linking dotfiles..."
+
+link_file "$SCRIPT_DIR/.gitconfig" "$HOME/.gitconfig"
+link_file "$SCRIPT_DIR/.zshrc" "$HOME/.zshrc"
+
+# =============================================================================
+# Shell profile hints
+# =============================================================================
+
+log "Checking shell config hints..."
+
+if [[ -f "$HOME/.zshrc" ]]; then
+  if ! grep -q 'PNPM_HOME="$HOME/Library/pnpm"' "$HOME/.zshrc"; then
+    cat >> "$HOME/.zshrc" <<'EOF'
+
+# pnpm
+export PNPM_HOME="$HOME/Library/pnpm"
+export PATH="$PNPM_HOME:$PATH"
+EOF
+    echo "Added PNPM_HOME to ~/.zshrc"
+  else
+    echo "PNPM_HOME already present in ~/.zshrc"
+  fi
+
+  if ! grep -q 'fnm env' "$HOME/.zshrc"; then
+    cat >> "$HOME/.zshrc" <<'EOF'
+
+# fnm
+eval "$(fnm env --use-on-cd --shell zsh)"
+EOF
+    echo "Added fnm init to ~/.zshrc"
+  else
+    echo "fnm init already present in ~/.zshrc"
+  fi
+fi
+
+log "Done."
+echo "Restart your terminal or run: source ~/.zshrc"
