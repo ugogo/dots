@@ -44,6 +44,7 @@ CASKS=(
   dropbox
   flux
   font-fira-code
+  ghostty
   jordanbaird-ice
   linear-linear
   notion-calendar
