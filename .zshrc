@@ -107,3 +107,9 @@ function pull {
   echo "$ git pull origin $branch --rebase"
   git pull --rebase origin "$branch"
 }
+
+# =============================================================================
+# Path
+# =============================================================================
+
+export PATH="$HOME/.local/bin:$PATH"

@@ -103,6 +103,7 @@ CASKS=(
   1password
   arc
   alt-tab
+  bartender
   cleanshot
   cursor
   deepl
