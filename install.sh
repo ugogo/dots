@@ -78,6 +78,7 @@ log "Installing brew formulae..."
 FORMULAE=(
   autojump
   fnm
+  neonctl
   gh
   pure
   thaw
