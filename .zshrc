@@ -12,7 +12,8 @@ case ":$PATH:" in
 esac
 
 # fnm — Node version manager (must be installed: brew install fnm)
-eval "$(fnm env)"
+export FNM_VERSION_FILE_STRATEGY=recursive
+eval "$(fnm env --use-on-cd)"
 
 # =============================================================================
 # Zsh options (optional but useful)
