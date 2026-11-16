@@ -66,7 +66,6 @@ alias gaa="git add --all"
 alias gd="git diff -w"
 alias gl="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 alias gbr="git branch"
-alias gco="git checkout"
 alias gci="echo 🎯 && git commit"
 alias gcp="git cherry-pick"
 alias grh="git reset HEAD"
@@ -100,6 +99,23 @@ function push {
     echo "$ 🍻  git push origin $branch 🍻"
     git push origin "$branch"
   fi
+}
+
+# gco <branch>: cd into the branch's worktree if it has one, else git checkout
+unalias gco 2>/dev/null
+function gco {
+  if [[ $# -eq 1 && "$1" != -* ]]; then
+    local wt
+    wt=$(git worktree list --porcelain 2>/dev/null | awk -v ref="refs/heads/$1" '
+      /^worktree / { path = substr($0, 10) }
+      $0 == "branch " ref { print path; exit }')
+    if [[ -n "$wt" ]]; then
+      echo "$ 🌳 cd $wt"
+      cd "$wt"
+      return
+    fi
+  fi
+  git checkout "$@"
 }
 
 function pull {
